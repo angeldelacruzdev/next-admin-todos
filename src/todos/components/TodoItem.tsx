@@ -1,11 +1,33 @@
 "use client";
 
+import { IoCheckboxOutline } from "react-icons/io5";
+import { ImCheckboxUnchecked } from "react-icons/im";
+
 import { TodoProps } from "../interfaces/todos-props.interface";
 
-export const TodoItem = ({ todo }: TodoProps) => {
+import styles from "./TodoItem.module.css";
+
+export const TodoItem = ({ todo, toggleTodo }: TodoProps) => {
   return (
     <>
-      <div>{todo?.description}</div>
+      <div
+        className={`${
+          todo?.complete ? styles.todoDone : styles.todoPending
+        } col-span-4`}
+      >
+        <div className="flex flex-col sm:flex-row justify-start items-center gap-4">
+          <div
+            onClick={() => toggleTodo(`${todo?.id}`, !todo?.complete)}
+            className={`flex p-2 rounded-md cursor-pointer  hover:bg-opacity-60 ${
+              todo?.complete ? "bg-blue-100" : "bg-red-100"
+            }`}
+          >
+            {todo?.complete ? <IoCheckboxOutline /> : <ImCheckboxUnchecked />}
+          </div>
+
+          <div className="text-center sm:text-left">{todo?.description}</div>
+        </div>
+      </div>
     </>
   );
 };

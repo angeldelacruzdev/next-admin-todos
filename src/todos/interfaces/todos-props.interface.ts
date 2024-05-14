@@ -6,5 +6,5 @@ export interface TodosProps {
 
 export interface TodoProps {
   todo?: Todo;
-  //TODO: Acciones que quiero llamar.
+  toggleTodo: (id: string, complete: boolean) => Promise<Todo | void>;
 }

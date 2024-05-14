@@ -10,10 +10,10 @@ export default async function RestTodosPage() {
   const todos = await prisma.todo.findMany({ orderBy: { description: "asc" } });
 
   return (
-    <div>
+    <>
       {/* TODO: Formulario para agregar todos. */}
       <h1>Rest Todos Page</h1>
       <TodosGrid todos={todos} />
-    </div>
+    </>
   );
 }
