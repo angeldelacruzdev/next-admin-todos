@@ -1,30 +1,63 @@
-'use client';
+"use client";
 
 import { IoTrashOutline } from "react-icons/io5";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { createTodo, deleteCompleteTodo } from "../helpers/todo";
+import { useRouter } from "next/navigation";
 
+type Inputs = {
+  description: string;
+};
 
-export const NewTodo = () => { 
+export const NewTodo = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const created = await createTodo(data.description);
+
+    if (created) {
+      reset();
+      router.refresh();
+    }
+  };
+
+  const deleteCompleted = async () => {
+    await deleteCompleteTodo();
+    router.refresh();
+  };
 
   return (
-    <form  className='flex w-full'>
-      <input type="text"
+    <form className="flex w-full" onSubmit={handleSubmit(onSubmit)}>
+      <input
+        type="text"
+        {...register("description", { required: true })}
         className="w-6/12 -ml-10 pl-3 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-sky-500 transition-all"
-        placeholder="¿Qué necesita ser hecho?" />
+        placeholder="¿Qué necesita ser hecho?"
+      />
 
-      <button type='submit' className="flex items-center justify-center rounded ml-2 bg-sky-500 p-2 text-white hover:bg-sky-700 transition-all">
+      <button
+        type="submit"
+        className="flex items-center justify-center rounded ml-2 bg-sky-500 p-2 text-white hover:bg-sky-700 transition-all"
+      >
         Crear
       </button>
-      
-      <span className='flex flex-1'></span>
 
-      <button 
-        //TODO: onClick={ () => deleteCompleted() }
-        type='button' className="flex items-center justify-center rounded ml-2 bg-red-400 p-2 text-white hover:bg-red-700 transition-all">
+      <span className="flex flex-1"></span>
+
+      <button
+        onClick={() => deleteCompleted()}
+        type="button"
+        className="flex items-center justify-center rounded ml-2 bg-red-400 p-2 text-white hover:bg-red-700 transition-all"
+      >
         <IoTrashOutline />
-        Delete
+        Borrar completados
       </button>
-
-
     </form>
-  )
-}
+  );
+};

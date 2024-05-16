@@ -11,7 +11,6 @@ export default async function RestTodosPage() {
 
   return (
     <>
-      <h1>Rest Todos Page</h1>
       <div className="w-full px-3 mx-5 mb-5">
         <NewTodo />
       </div>
