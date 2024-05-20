@@ -2,34 +2,21 @@
 
 import { IoTrashOutline } from "react-icons/io5";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createTodo, deleteCompleteTodo } from "../helpers/todo";
-import { useRouter } from "next/navigation";
+
+import { addTodo, deleteCompleted } from "../actions/todo.actions";
 
 type Inputs = {
   description: string;
 };
 
 export const NewTodo = () => {
-  const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const created = await createTodo(data.description);
+    const created = await addTodo(data.description);
 
     if (created) {
       reset();
-      router.refresh();
     }
-  };
-
-  const deleteCompleted = async () => {
-    await deleteCompleteTodo();
-    router.refresh();
   };
 
   return (

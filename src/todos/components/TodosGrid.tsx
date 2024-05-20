@@ -4,20 +4,10 @@ import { useRouter } from "next/navigation";
 import { TodosProps } from "../interfaces/todos-props.interface";
 import { TodoItem } from "./TodoItem";
 
-import { updateTodo } from "@/todos/helpers/todo";
+import { toggleTodo } from "../actions/todo.actions";
 
 export const TodosGrid = ({ todos = [] }: TodosProps) => {
-
   const router = useRouter();
-
-
-  const toggleTodo = async (id: string, complete: boolean) => {
-    console.log(id, complete)
-    const updateTodoItem = await updateTodo(id, complete)
-    console.log(updateTodoItem)
-    router.refresh()
-
-  }
 
   return (
     <>
