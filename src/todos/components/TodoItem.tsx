@@ -1,5 +1,6 @@
 "use client";
 
+import { useOptimistic } from "react";
 import { IoCheckboxOutline } from "react-icons/io5";
 import { ImCheckboxUnchecked } from "react-icons/im";
 
@@ -8,6 +9,11 @@ import { TodoProps } from "../interfaces/todos-props.interface";
 import styles from "./TodoItem.module.css";
 
 export const TodoItem = ({ todo, toggleTodo }: TodoProps) => {
+  const [todoOptimistic, toggleTodoOptimistic] = useOptimistic(todo, () => ({
+    ...todo,
+    complete: true,
+  }));
+
   return (
     <>
       <div
@@ -17,15 +23,23 @@ export const TodoItem = ({ todo, toggleTodo }: TodoProps) => {
       >
         <div className="flex flex-col sm:flex-row justify-start items-center gap-4">
           <div
-            onClick={() => toggleTodo(`${todo?.id}`, !todo?.complete)}
+            onClick={() =>
+              toggleTodo(`${todoOptimistic?.id}`, !todoOptimistic?.complete)
+            }
             className={`flex p-2 rounded-md cursor-pointer  hover:bg-opacity-60 ${
-              todo?.complete ? "bg-blue-100" : "bg-red-100"
+              todoOptimistic?.complete ? "bg-blue-100" : "bg-red-100"
             }`}
           >
-            {todo?.complete ? <IoCheckboxOutline /> : <ImCheckboxUnchecked />}
+            {todoOptimistic?.complete ? (
+              <IoCheckboxOutline />
+            ) : (
+              <ImCheckboxUnchecked />
+            )}
           </div>
 
-          <div className="text-center sm:text-left">{todo?.description}</div>
+          <div className="text-center sm:text-left">
+            {todoOptimistic?.description}
+          </div>
         </div>
       </div>
     </>
