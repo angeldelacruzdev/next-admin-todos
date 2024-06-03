@@ -47,10 +47,10 @@ export default function CartPage() {
         </div>
         <div className="flex flex-col sm:w-4/12">
           <WidgetItem title="Total a pagar">
-            <div>
-              <h3>$...</h3>
+            <div className="mt-2 flex justify-center gap-4">
+              <h3 className="text-3xl font-bold text-gray-700">$...</h3>
             </div>
-            <span className="">Impuestos 15%: $...</span>
+            <span className="font-bold text-center text-gray-500">Impuestos 15%: $...</span>
           </WidgetItem>
         </div>
       </div>
